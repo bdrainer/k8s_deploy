@@ -28,7 +28,7 @@ If there were main branch changes those needed to be pulled into the env branche
 
 1. Checkout env branch.
 2. Merge the main branch into the env branch.  
-3. 
+3. Update gradle.properties
 
 The only changes that merge in from main would be changes to gradle.properties.
 
