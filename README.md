@@ -80,7 +80,7 @@ The applications were developed and a release was eventually created.  The relea
 pushed into Docker Hub.  The released docker images were given a version like 1.2.3 or 1.0.7
 
 Docker Hub was used by Kubernetes to pull down the apps and run them their respective deployments. See the files in 
-[tempaltes/k8s-app](templates/k8s-app/).  Each Yaml file represents an application where the file defines the app's
+`templates/k8s-app`.  Each Yaml file represents an application where the file defines the app's
 K8s service and deployment specifications.
 
 Once the applications were created in the cluster, the only thing required was to up the cluster with new versions of 
