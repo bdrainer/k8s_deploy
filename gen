@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+#
+# Executes the Gradle build.
+#
+# Make this script executable: chmod +x gen
+#
+
+./gradlew --daemon -q $@
+
+chmod 755 ./release/*.sh

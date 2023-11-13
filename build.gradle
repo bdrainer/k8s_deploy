@@ -1,0 +1,48 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+plugins {
+    id 'java'
+}
+
+group = 'com.bwg'
+version = '1.0-SNAPSHOT'
+
+ext {
+    tokens = [BUILD_DIR : project.buildDir.name]
+    // adds the gradle.properties to the tokens map, used for filtering
+    project.ext.properties.keySet().each {
+        tokens[(it)] = property(it) as String
+    }
+}
+
+// clean first then generate the files
+defaultTasks 'clean', 'genCluster', 'genApps'
+
+task genCluster(type: Copy) {
+    from('templates/k8s-cluster') {
+        filter(ReplaceTokens, tokens: project.tokens)
+    }
+    into "${project.buildDir}"
+}
+
+task genApps(type: Copy) {
+    from('templates/k8s-apps') {
+        filter(ReplaceTokens, tokens: project.tokens)
+    }
+    into "${project.buildDir}"
+}
+
+// ----------------------------------------------------------------------------
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
+}
+
+test {
+    useJUnitPlatform()
+}
