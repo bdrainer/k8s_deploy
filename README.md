@@ -12,7 +12,7 @@ The platform runs on AWS but this was before EKS came out.  I had not explored H
 
 My goal was to make releasing microservice into the Kubernetes cluster simple and easy.
 
-The K8s files shown here are likely outdated and reflect what was used at the time._
+The K8s files shown here are likely outdated and reflect what was used at the time.
 
 ## Gradle
 Using Gradle and its copy filtering feature, the values in gradle.properties were used to define the release.
@@ -28,6 +28,7 @@ If there were main branch changes those needed to be pulled into the env branche
 
 1. Checkout env branch.
 2. Merge the main branch into the env branch.  
+3. 
 
 The only changes that merge in from main would be changes to gradle.properties.
 
@@ -40,13 +41,13 @@ Gradle replaces the tokens and copies the files to the release folder.
 To see the template filtering in action you can either run `./gen` or you could call gradle directly `./gradlew`.  The 
 build has a default set of tasks it runs so there are no tasks needed when calling Gradle.
 
-The files presented in this project are simply and have a few tokens in order to demonstrate the idea.  
+The files presented in this project are simple and have a few tokens in order to demonstrate the idea.  
 You could put as many tokens as you want into the templates.  Just make sure to add them to gradle.properties.
 
 ## Scripts
 Scripts in the root of the project are used to drive the creation of the templates and to execute the process.
  
-Typically when standing up a new environment the cluster and its base services needed run.  Then the applications needed
+When standing up a new environment the cluster and its base services needed run.  Then the applications needed
 to be created in the cluster.
 
 Once the initial setup was done, updating the applications was the most common thing to be done.  New features in the apps
@@ -90,7 +91,20 @@ Steps when updating application versions:
 1. Checkout env branch.
 2. Merge the main branch into the env branch.
 3. Update gradle.properties with the env specific values. 
-4. Run `./cluster-update-app.sh`
+4. Adjust [cluster-update-apps.sh](cluster-update-apps.sh) to your needs. 
+5. Run `./cluster-update-app.sh`
+
+## Commit Changes
+
+Once a release/deployment was successful, the Ops team would commit the changes made.  This
+captured what was done for a particular release.  
+
+The changes to gradle.properties are committed to the Git history. 
+
+Maybe you don't need to release all the apps in the ecosystem.  In this case, adjust [cluster-update-apps.sh](cluster-update-apps.sh)
+by commenting out what doesn't require being deployed.  Committing these changes shows what was done at that time.  On the 
+next deployment this file will be adjusted again to capture what was done.
+
 
 ## Lessons Learned
 
