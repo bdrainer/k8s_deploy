@@ -72,6 +72,7 @@ Steps when standing up a new env:
 6. Run `./cluster-create-base.sh`
 7. Wait for the base services to be available, this was quick
 8. Run `./cluster-create-app.sh`
+9. Commit changes and push
 
 ## Application Release
 The applications were developed in a separate Git repository.  Initially each app was in its own Git repo, but
@@ -93,6 +94,7 @@ Steps when updating application versions:
 3. Update gradle.properties with the env specific values. 
 4. Adjust [cluster-update-apps.sh](cluster-update-apps.sh) to your needs. 
 5. Run `./cluster-update-app.sh`
+6. Commit changes and push
 
 ## Commit Changes
 
