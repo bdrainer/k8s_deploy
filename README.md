@@ -26,16 +26,18 @@ environment specific branches.
 ## Branches 
 Branches were used to represent the different environments.  Branches like 'dev', 'stg', and 'prod'.
 The main branch gradle.properties had values that were common to all environments.  If there was a property
-that was environment specific the main branch had no value for that property.
+that was environment specific in the main branch, the property was defined but it had no value.
 
 If there were main branch changes those needed to be pulled into the env branches. 
 
 1. Checkout env branch.
-2. Merge the main branch into the env branch.  
-3. Update gradle.properties
+2. Merge the main branch into the env branch.
+3. Handle merge conflicts, if any
 
-The changes that might have merge conflicts will be gradle.properties.  Additions in main and changes in the env branch.
-The merge is straight forward and once merged won't be a conflict going forward until more changes are made in main and merged in.
+The changes that might have merge conflicts will be gradle.properties.  Everything else is common.  
+
+Additions on main and changes in the env branch to gradle.properties could cause merge conflicts.  The merge is straight 
+forward and once merged won't be a conflict going forward until more changes are made in main and merged in.
 
 ## Templates
 See the [templates](templates) folder.  It contains different files with tokens that are replaces by Gradle.  The tokens
