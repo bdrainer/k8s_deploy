@@ -7,6 +7,12 @@ plugins {
 group = 'com.bwg'
 version = '1.0-SNAPSHOT'
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 ext {
     tokens = [BUILD_DIR : project.buildDir.name]
     // adds the gradle.properties to the tokens map, used for filtering
