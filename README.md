@@ -14,6 +14,10 @@ My goal was to make releasing microservice into the Kubernetes cluster simple an
 
 The K8s files shown here are likely outdated and reflect what was used at the time.
 
+The applications making up the testing platform were Spring Boot microservices.  We utilized the 
+[Spring Cloud Config Server](https://spring.io/projects/spring-cloud-config)  for externalizing the applications' 
+configuration.  
+
 ## Gradle
 Using Gradle and its copy filtering feature, the values in gradle.properties were used to define the release.
 This created one place the Ops team had to go to update the release.  All other files in the branch are common across
@@ -30,7 +34,8 @@ If there were main branch changes those needed to be pulled into the env branche
 2. Merge the main branch into the env branch.  
 3. Update gradle.properties
 
-The only changes that merge in from main would be changes to gradle.properties.
+The changes that might have merge conflicts will be gradle.properties.  Additions in main and changes in the env branch.
+The merge is straight forward and once merged won't be a conflict going forward until more changes are made in main and merged in.
 
 ## Templates
 See the [templates](templates) folder.  It contains different files with tokens that are replaces by Gradle.  The tokens
@@ -112,17 +117,24 @@ next deployment this file will be adjusted again to capture what was done.
 
 When updating the applications in the cluster, consider using sleep in between `kubectl replace` calls.  The idea is 
 to replace a few apps and let them fully come up before moving on to replacing more.  This helps avoid overwhelming
-the cluster.  See [cluster-update-apps.sh](cluster-update-apps.sh)
+the cluster.  See [cluster-update-apps.sh](cluster-update-apps.sh) and the header comments in it. 
 
 We felt having one cluster in one VPC was overkill for our needs.  We ended up having the production cluster in its
 own VPC, but we shared another VPC for our dev, uat, and staging clusters.  It required editing values when creating 
 the cluster.  Values like subnet CIDRs.
 
+## Future Features
+
+When a new service is introduced, there should be a way to run something to generate a new file for it in 
+[templates/k8s-apps](templates/k8s-apps) folder.  Each app gets its own YAML file which consists of a 
+Service and Deployment spec.  There is little difference between the apps when looking at these files. 
+
+
 ## Requirements
 
 You will need an AWS account where the cluster will be created.  
 
-You will need credentials on the machine where this project is executed.
+You will need AWS credentials on the machine where this project is executed.
 
 * [Gradle](https://gradle.org/)
 * [AWS client](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
